@@ -131,11 +131,11 @@ class XRayDataset(Dataset):
             label[..., class_ind] = class_label
         
         if self.transforms is not None:
-            inputs = {"image": image, "mask": label} if self.is_train else {"image": image}
+            inputs = {"image": image, "mask": label}
             result = self.transforms(**inputs)
             
             image = result["image"]
-            label = result["mask"] if self.is_train else label
+            label = result["mask"] 
 
         # to tenser will be done later
         image = image.transpose(2, 0, 1)    # channel first 포맷으로 변경합니다.

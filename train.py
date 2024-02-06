@@ -47,7 +47,7 @@ def train(model,file_name, epochs, data_loader, val_loader, criterion, optimizer
             scaler.update()
             
             # step 주기에 따라 loss를 출력합니다.
-            if (step + 1) % 25 == 0:
+            if (step + 1) % 10 == 0:
                 print(
                     f'{datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")} | '
                     f'Epoch [{epoch+1}/{epochs}], '
@@ -88,13 +88,6 @@ def validation(epoch, model, data_loader, criterion, device, thr=0.5):
     
             
             outputs = model(images)['out']
-            
-            output_h, output_w = outputs.size(-2), outputs.size(-1)
-            mask_h, mask_w = masks.size(-2), masks.size(-1)
-            
-            # gt와 prediction의 크기가 다른 경우 prediction을 gt에 맞춰 interpolation 합니다.
-            if output_h != mask_h or output_w != mask_w:
-                outputs = F.interpolate(outputs, size=(mask_h, mask_w), mode="bilinear")
             
             loss = criterion(outputs, masks)
             total_loss += loss
@@ -146,7 +139,7 @@ def main(configs):
 
     valid_loader = DataLoader(
         dataset=validset, 
-        batch_size=BATCH_SIZE,
+        batch_size=16,
         num_workers=4,
         shuffle=False,
         drop_last=False
