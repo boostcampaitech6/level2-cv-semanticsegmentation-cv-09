@@ -35,7 +35,9 @@ def test(model, data_loader, thr=0.5):
 
         for step, (images, image_names) in tqdm(enumerate(data_loader), total=len(data_loader)):
             images = images.cuda()    
-            outputs = model(images)['out']
+            outputs = model(images)
+            if not type(outputs) == torch.Tensor:
+                outputs = outputs['out']
             
             outputs = F.interpolate(outputs, size=(2048, 2048), mode="bilinear")
             outputs = torch.sigmoid(outputs)
@@ -53,8 +55,10 @@ def main(configs):
 
     
     model_name = configs['model_name']
-    if model_name == 'FCN':
+    if model_name.lower() == 'FCN'.lower():
         model = models.FCN()
+    elif model_name.lower() == 'SegNet'.lower():
+        model = models.SegNet()
 
     save_path = configs['path']['save_dir']
     model = torch.load(save_path)

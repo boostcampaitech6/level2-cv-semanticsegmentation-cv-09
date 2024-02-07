@@ -37,7 +37,9 @@ def train(model,file_name, epochs, data_loader, val_loader, criterion, optimizer
             images, masks = images.to(device), masks.to(device)
             
             with autocast():
-                outputs = model(images)['out']
+                outputs = model(images)
+                if not type(outputs) == torch.Tensor:
+                    outputs = outputs['out']
                 # loss를 계산합니다.
                 loss = criterion(outputs, masks)
 
@@ -87,7 +89,9 @@ def validation(epoch, model, data_loader, criterion, device, thr=0.5):
             images, masks = images.to(device), masks.to(device)         
     
             
-            outputs = model(images)['out']
+            outputs = model(images)
+            if not type(outputs) == torch.Tensor: 
+                outputs = outputs['out']
             
             loss = criterion(outputs, masks)
             total_loss += loss
@@ -148,10 +152,15 @@ def main(configs):
     device = torch.device('cuda')
     model_name = configs['model_name']
 
-    if model_name == 'FCN':
+    if model_name.lower() == 'FCN'.lower():
         model = models.FCN()
         model.to(device)
         file_name = 'FCN.pt'
+
+    elif model_name.lower() == 'SegNet'.lower():
+        model = models.SegNet()
+        model.to(device)
+        file_name = 'SegNet.pt'
 
 
     LR = configs['learning_rate']
