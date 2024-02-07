@@ -1,0 +1,7 @@
+path:
+  img_dir: '../data/test/DCM'
+  save_dir: "./checkpoint/FCN.pt"
+  output_dir: 'output.csv'
+
+model_name: 'FCN'
+  
