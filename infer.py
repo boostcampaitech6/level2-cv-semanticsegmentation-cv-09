@@ -59,6 +59,8 @@ def main(configs):
         model = models.FCN()
     elif model_name.lower() == 'SegNet'.lower():
         model = models.SegNet()
+    elif model_name.lower() == 'DeepLabV3'.lower():
+        model = models.DeepLabV3()
 
     save_path = configs['path']['save_dir']
     model = torch.load(save_path)
