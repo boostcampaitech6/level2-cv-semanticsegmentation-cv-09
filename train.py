@@ -162,6 +162,16 @@ def main(configs):
         model.to(device)
         file_name = 'SegNet.pt'
 
+    elif model_name.lower() == 'dilatednet':
+        model = models.dilated_net()
+        model.to(device)
+        file_name = 'DilatedNet.pt'
+
+    elif model_name.lower() == 'DeepLabv3+'.lower():
+        model = models.DeepLabV3Plus()
+        model.to(device)
+        file_name = 'DeepLabv3Plus.pt'
+
 
     LR = configs['learning_rate']
     criterion = nn.BCEWithLogitsLoss()
