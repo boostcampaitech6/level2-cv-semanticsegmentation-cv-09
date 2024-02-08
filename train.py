@@ -162,6 +162,10 @@ def main(configs):
         model.to(device)
         file_name = 'SegNet.pt'
 
+    elif model_name.lower() == 'UnetPlusPlus'.lower():
+        model = models.UnetPlusPlus()
+        model.to(device)
+        file_name = 'UnetPlusPlus.pt'
 
     LR = configs['learning_rate']
     criterion = nn.BCEWithLogitsLoss()
