@@ -1,5 +1,6 @@
 import torch.nn as nn
 from torchvision import models
+import segmentation_models_pytorch as smp
 
 LEN_CLASS = 29
 
@@ -7,6 +8,17 @@ def FCN():
     model = model = models.segmentation.fcn_resnet50(pretrained=True)
     model.classifier[4] = nn.Conv2d(512, LEN_CLASS, kernel_size=1)
     return model
+
+
+def UnetPlusPlus():
+    model = smp.UnetPlusPlus(
+        encoder_name="resnet50",
+        encoder_weights="imagenet",
+        in_channels=3,
+        classes=LEN_CLASS,
+    )
+    return model
+
 
 class SegNet(nn.Module):
     def __init__(self, num_classes=LEN_CLASS):
