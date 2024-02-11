@@ -203,3 +203,8 @@ pyrightconfig.json
 # Ignore all local history of files
 .history
 .ionide
+
+checkpoints
+lightning_logs
+result
+wandb

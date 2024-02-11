@@ -1,0 +1,14 @@
+dir:
+  img_dir: "../dataset/train/DCM"
+  label_dir: "../dataset/train/outputs_json"
+  save_dir: "./checkpoint"
+
+img_size: 512
+seed: 42
+batch_size: 8
+epochs: 100
+model_name: "UnetPlusPlus"
+encoder_name: "timm-efficientnet-b5"
+learning_rate: 0.001
+patience: 10
+split: 0
