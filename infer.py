@@ -59,6 +59,8 @@ def main(configs):
         model = models.FCN()
     elif model_name.lower() == 'SegNet'.lower():
         model = models.SegNet()
+    elif model_name.lower() == 'UnetPlusPlus'.lower():
+        model = models.UnetPlusPlus()
 
     save_path = configs['path']['save_dir']
     model = torch.load(save_path)
