@@ -1,11 +1,20 @@
 import torch.nn as nn
 from torchvision import models
+import segmentation_models_pytorch as smp
 
 LEN_CLASS = 29
 
 def FCN():
     model = model = models.segmentation.fcn_resnet50(pretrained=True)
     model.classifier[4] = nn.Conv2d(512, LEN_CLASS, kernel_size=1)
+    return model
+
+def UNet():
+    model = smp.Unet(
+        encoder_name = 'resnet101',
+        encoder_weights = 'imagenet',
+        classes = LEN_CLASS
+    )
     return model
 
 class SegNet(nn.Module):
