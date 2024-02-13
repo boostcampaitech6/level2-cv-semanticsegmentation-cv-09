@@ -161,6 +161,11 @@ def main(configs):
         model = models.SegNet()
         model.to(device)
         file_name = 'SegNet.pt'
+    
+    elif model_name.lower() == 'UNet'.lower():
+        model = models.UNet()
+        model.to(device)
+        file_name = 'UNet.pt'
 
     elif model_name.lower() == 'UnetPlusPlus'.lower():
         model = models.UnetPlusPlus()

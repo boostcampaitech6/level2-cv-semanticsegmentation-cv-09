@@ -59,6 +59,8 @@ def main(configs):
         model = models.FCN()
     elif model_name.lower() == 'SegNet'.lower():
         model = models.SegNet()
+    elif model_name.lower() == 'UNet'.lower():
+        model = models.UNet()
     elif model_name.lower() == 'UnetPlusPlus'.lower():
         model = models.UnetPlusPlus()
 
