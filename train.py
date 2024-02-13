@@ -167,6 +167,11 @@ def main(configs):
         model.to(device)
         file_name = 'UNet.pt'
 
+    elif model_name.lower() == 'UnetPlusPlus'.lower():
+        model = models.UnetPlusPlus()
+        model.to(device)
+        file_name = 'UnetPlusPlus.pt'
+
     LR = configs['learning_rate']
     criterion = nn.BCEWithLogitsLoss()
     optimizer = optim.Adam(params=model.parameters(), lr=LR)
