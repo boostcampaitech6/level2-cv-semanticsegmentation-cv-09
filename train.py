@@ -166,7 +166,16 @@ def main(configs):
         model = models.DeepLabV3()
         model.to(device)
         file_name = 'DeepLabV3.pt'
+    
+    elif model_name.lower() == 'UNet'.lower():
+        model = models.UNet()
+        model.to(device)
+        file_name = 'UNet.pt'
 
+    elif model_name.lower() == 'UnetPlusPlus'.lower():
+        model = models.UnetPlusPlus()
+        model.to(device)
+        file_name = 'UnetPlusPlus.pt'
 
     LR = configs['learning_rate']
     criterion = nn.BCEWithLogitsLoss()
