@@ -10,6 +10,7 @@ import lightning as L
 import segmentation_models_pytorch as smp
 # from lion_pytorch import Lion
 
+from models.upernet import UperNet_swin
 from utils import dice_score, encode_mask_to_rle
 
 CLASSES = [
@@ -26,18 +27,23 @@ IND2CLASS = {v: k for k, v in CLASS2IND.items()}
 
 class HandBoneModel(L.LightningModule):
     def __init__(
-        self, model_name: str = 'Unet', encoder: str = 'resnet50',
+        self, model_name: str = 'Unet', encoder: str = 'resnet50', img_size: int = 512,
         scheduler: bool = False, lr: float = 0.001, output_dir: str = '',
         threshold: float = 0.5
     ) -> None:
         super().__init__()
-        self.model = smp.create_model(
-            arch=model_name,
-            encoder_name=encoder,
-            encoder_weights='imagenet',
-            in_channels=3,
-            classes=len(CLASSES),
-        )
+        if model_name != 'SwinTransformerV2':
+            self.model = smp.create_model(
+                arch=model_name,
+                encoder_name=encoder,
+                encoder_weights='imagenet',
+                in_channels=3,
+                classes=len(CLASSES),
+            )
+        else:
+            self.model = UperNet_swin(
+                size='swinv2_base_window16_256', img_size=img_size,
+                num_classes=len(CLASSES))
         self.threshold = threshold
         self.scheduler = scheduler
         self.lr = lr
@@ -132,7 +138,7 @@ class HandBoneModel(L.LightningModule):
         df.to_csv(self.output_dir, index=False)
 
     def configure_optimizers(self) -> Optional[
-            Union[Tuple[optim.Optimizer, optim.lr_scheduler.LRScheduler],
+            Union[Tuple[optim.Optimizer, optim.lr_scheduler._LRScheduler],
                   optim.Optimizer]]:
         optimizer = torch.optim.AdamW(
             self.parameters(), lr=self.lr, weight_decay=1e-2)

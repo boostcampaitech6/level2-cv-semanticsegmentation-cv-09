@@ -50,7 +50,8 @@ datamodule = HandBoneDataModule(
 datamodule.setup(stage='fit')
 
 model = HandBoneModel(
-    model_name=model_name, encoder=encoder, scheduler=False, lr=lr)
+    model_name=model_name, encoder=encoder,
+    img_size=img_size, scheduler=False, lr=lr)
 early_stopping = EarlyStopping(
     monitor="val_dice", min_delta=0.00, patience=patience,
     verbose=False, mode="max")
