@@ -6,6 +6,7 @@ import albumentations as A
 
 import torch
 from torch import Tensor
+import torch.nn.functional as F
 
 
 def dice_score(y_true: Union[Tensor], y_pred: Union[Tensor]) -> Union[Tensor]:
@@ -32,7 +33,9 @@ def encode_mask_to_rle(mask: np.ndarray) -> str:
 
 def get_train_aug(img_size: int = 512) -> Callable:
     train_transform = [
-        # A.HorizontalFlip(p=0.25),
+        A.HorizontalFlip(p=0.25),
+        A.Rotate(30, p=0.3),
+        A.ElasticTransform(p=0.3),
         # A.VerticalFlip(p=0.25),
         # A.ShiftScaleRotate(scale_limit=0.1, rotate_limit=15, shift_limit=0.1, p=0.25, border_mode=0),
         # A.OneOf(
@@ -68,3 +71,19 @@ def get_valid_aug(img_size: int = 512) -> Callable:
         # ToTensorV2(transpose_mask=True)
     ]
     return A.Compose(valid_transform)
+
+
+def dice_loss(pred, target, smooth=1.):
+    pred = pred.contiguous()
+    target = target.contiguous()
+    intersection = (pred * target).sum(dim=2).sum(dim=2)
+    loss = (1 - ((2. * intersection + smooth) / (pred.sum(dim=2).sum(dim=2) + target.sum(dim=2).sum(dim=2) + smooth)))
+    return loss.mean()
+
+
+def calc_loss(pred, target, bce_weight=0.5):
+    bce = F.binary_cross_entropy_with_logits(pred, target)
+    pred = F.sigmoid(pred)
+    dice = dice_loss(pred, target)
+    loss = bce * bce_weight + dice * (1 - bce_weight)
+    return loss
