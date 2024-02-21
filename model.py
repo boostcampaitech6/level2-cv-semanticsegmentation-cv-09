@@ -11,7 +11,7 @@ import segmentation_models_pytorch as smp
 # from lion_pytorch import Lion
 
 from models.upernet import UperNet_swin
-from utils import dice_score, encode_mask_to_rle
+from utils import dice_score, encode_mask_to_rle, calc_loss
 
 CLASSES = [
     'finger-1', 'finger-2', 'finger-3', 'finger-4', 'finger-5',
@@ -54,7 +54,7 @@ class HandBoneModel(L.LightningModule):
         self.pred_rles = []
         self.fname_and_class = []
         # self.loss_fn = smp.losses.FocalLoss(mode='MULTICLASS_MODE')
-        self.loss_fn = nn.BCEWithLogitsLoss()
+        self.loss_fn = calc_loss
 
     def forward(self, x: Union[Tensor]) -> Union[Tensor]:
         return self.model(x)
