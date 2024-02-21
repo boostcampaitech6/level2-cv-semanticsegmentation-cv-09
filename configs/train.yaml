@@ -3,12 +3,12 @@ dir:
   label_dir: "../dataset/train/outputs_json"
   save_dir: "./checkpoint"
 
-img_size: 512
+img_size: 1024
 seed: 42
-batch_size: 8
+batch_size: 2
 epochs: 100
-model_name: "UnetPlusPlus"
-encoder_name: "timm-efficientnet-b5"
-learning_rate: 0.001
+model_name: "DeepLabV3Plus"
+encoder_name: "timm-efficientnet-b6"
+learning_rate: 0.0005
 patience: 10
 split: 0

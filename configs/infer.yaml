@@ -1,10 +1,10 @@
 dir:
   img_dir: '../dataset/test/DCM'
-  save_dir: "02-10_21-42-23/epoch=44_val_loss=0.000482_val_DiceScore=0.000000"
+  save_dir: ""
   output_dir: 'result/output.csv'
 
 seed: 42
-batch_size: 8
-model_name: "UnetPlusPlus"
-encoder_name: "timm-efficientnet-b5"
-img_size: 512
+batch_size: 2
+model_name: "DeepLabV3Plus"
+encoder_name: "timm-efficientnet-b6"
+img_size: 1024
