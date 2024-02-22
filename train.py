@@ -161,6 +161,11 @@ def main(configs):
         model = models.SegNet()
         model.to(device)
         file_name = 'SegNet.pt'
+        
+    elif model_name.lower() == 'DeepLabV3'.lower():
+        model = models.DeepLabV3()
+        model.to(device)
+        file_name = 'DeepLabV3.pt'
     
     elif model_name.lower() == 'UNet'.lower():
         model = models.UNet()
@@ -182,7 +187,7 @@ def main(configs):
     patience = configs['patience']
     epochs = configs['epochs']
 
-    train(model, file_name, epochs, train_loader, valid_loader, criterion, optimizer, patience,device,SAVE_DIR)
+    train(model, file_name, epochs, train_loader, valid_loader, criterion, optimizer, patience,device, SAVE_DIR)
 
 
 if __name__ == '__main__':
