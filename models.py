@@ -10,15 +10,6 @@ def FCN():
     model.classifier[4] = nn.Conv2d(512, LEN_CLASS, kernel_size=1)
     return model
 
-def DeepLabV3Plus():
-    model = smp.DeepLabV3Plus(
-        encoder_name = 'resnet101',
-        encoder_weights = 'imagenet',
-        classes = LEN_CLASS
-    )
-    return model
-
-
 def UNet():
     model = smp.Unet(
         encoder_name = 'resnet101',
@@ -212,3 +203,12 @@ def dilated_net():
     classifier = Classifier(num_classes=LEN_CLASS)
     context_module = BasicContextModule(num_classes=LEN_CLASS)
     model = DilatedNet(backbone=backbone, classifier=classifier, context_module=context_module)
+    return model
+
+def DeepLabV3Plus():
+    model = smp.DeepLabV3Plus(
+        encoder_name = 'resnet101',
+        encoder_weights = 'imagenet',
+        classes = LEN_CLASS
+    )
+    return model
