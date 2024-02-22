@@ -161,17 +161,16 @@ def main(configs):
         model = models.SegNet()
         model.to(device)
         file_name = 'SegNet.pt'
-
-    elif model_name.lower() == 'dilatednet':
-        model = models.dilated_net()
+    
+    elif model_name.lower() == 'UNet'.lower():
+        model = models.UNet()
         model.to(device)
-        file_name = 'DilatedNet.pt'
+        file_name = 'UNet.pt'
 
-    elif model_name.lower() == 'DeepLabv3+'.lower():
-        model = models.DeepLabV3Plus()
+    elif model_name.lower() == 'UnetPlusPlus'.lower():
+        model = models.UnetPlusPlus()
         model.to(device)
-        file_name = 'DeepLabv3Plus.pt'
-
+        file_name = 'UnetPlusPlus.pt'
 
     LR = configs['learning_rate']
     criterion = nn.BCEWithLogitsLoss()
@@ -195,6 +194,3 @@ if __name__ == '__main__':
     with open(args.config, 'r') as f:
         configs = OmegaConf.load(f)
     main(configs)
-
-
-
