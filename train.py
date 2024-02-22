@@ -199,6 +199,3 @@ if __name__ == '__main__':
     with open(args.config, 'r') as f:
         configs = OmegaConf.load(f)
     main(configs)
-
-
-

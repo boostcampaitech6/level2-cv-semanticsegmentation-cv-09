@@ -59,12 +59,17 @@ def main(configs):
         model = models.FCN()
     elif model_name.lower() == 'SegNet'.lower():
         model = models.SegNet()
+    elif model_name.lower() == 'dilatednet':
+        model = models.dilated_net()
+    elif model_name.lower() == 'Deeplabv3plus'.lower():
+        model = models.DeepLabV3Plus()
     elif model_name.lower() == 'DeepLabV3'.lower():
         model = models.DeepLabV3()
     elif model_name.lower() == 'UNet'.lower():
         model = models.UNet()
     elif model_name.lower() == 'UnetPlusPlus'.lower():
         model = models.UnetPlusPlus()
+
 
     save_path = configs['path']['save_dir']
     model = torch.load(save_path)

@@ -152,6 +152,68 @@ class SegNet(nn.Module):
         h = self.dcbr1_1(h)
         h = self.score_fr(h)
         return h
+
+class BasicContextModule(nn.Module):
+    def __init__(self, num_classes):
+        super(BasicContextModule, self).__init__()
+
+        self.layer1 = nn.Sequential(conv_relu(num_classes, num_classes, 3, 1))
+        self.layer2 = nn.Sequential(conv_relu(num_classes, num_classes, 3, 1))
+        self.layer3 = nn.Sequential(conv_relu(num_classes, num_classes, 3, 2))
+        self.layer4 = nn.Sequential(conv_relu(num_classes, num_classes, 3, 4))
+        self.layer5 = nn.Sequential(conv_relu(num_classes, num_classes, 3, 8))
+        self.layer6 = nn.Sequential(conv_relu(num_classes, num_classes, 3, 16))
+        self.layer7 = nn.Sequential(conv_relu(num_classes, num_classes, 3, 1))
+        # No Truncation
+        self.layer8 = nn.Sequential(nn.Conv2d(num_classes, num_classes, 1, 1))
+
+    def forward(self, x):
+
+        out = self.layer1(x)
+        out = self.layer2(out)
+        out = self.layer3(out)
+        out = self.layer4(out)
+        out = self.layer5(out)
+        out = self.layer6(out)
+        out = self.layer7(out)
+        out = self.layer8(out)
+
+        return out
+
+class DilatedNet(nn.Module):
+    def __init__(self, backbone, classifier, context_module):
+        super(DilatedNet, self).__init__()
+        self.backbone = backbone
+        self.classifier = classifier
+        self.context_module = context_module
+
+        self.deconv = nn.ConvTranspose2d(in_channels=29,
+                                         out_channels=29,
+                                         kernel_size=16,
+                                         stride=8,
+                                         padding=4)
+
+    def forward(self, x):
+        x = self.backbone(x)
+        x = self.classifier(x)
+        x = self.context_module(x)
+        out = self.deconv(x)
+        return out
+
+def dilated_net():
+    backbone = VGG16()
+    classifier = Classifier(num_classes=LEN_CLASS)
+    context_module = BasicContextModule(num_classes=LEN_CLASS)
+    model = DilatedNet(backbone=backbone, classifier=classifier, context_module=context_module)
+    return model
+
+def DeepLabV3Plus():
+    model = smp.DeepLabV3Plus(
+        encoder_name = 'resnet101',
+        encoder_weights = 'imagenet',
+        classes = LEN_CLASS
+    )
+    return model
     
     
 def conv_block(in_ch, out_ch, k_size, stride, padding, dilation=1, relu=True):
