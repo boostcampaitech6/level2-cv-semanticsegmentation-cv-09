@@ -203,3 +203,10 @@ pyrightconfig.json
 # Ignore all local history of files
 .history
 .ionide
+
+# Config
+configs/
+checkpoint/
+train.sh
+nohup.out
+*.csv
