@@ -1,0 +1,11 @@
+dir:
+  img_dir: "../data/train/DCM"
+  label_dir: "../data/train/outputs_json"
+  save_dir: "./checkpoint"
+
+random_seed: 42
+batch_size: 32
+epochs: 50
+model_name: 'FCN'
+learning_rate: 0.001
+patience: 3
