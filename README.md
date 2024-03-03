@@ -1,4 +1,4 @@
-# level- 2 대회 :Hand Bone Image Segmentation 대회
+# level-2 대회 : Hand Bone Image Segmentation 대회
 
 ## 팀 소개
 | 이름 | 역할 |
@@ -40,7 +40,7 @@
 
 ## Wrap-Up Report
 
-- [Wrap-Up Report](https://github.com/boostcampaitech6/)
+- [Wrap-Up Report](https://github.com/boostcampaitech6/level2-cv-semanticsegmentation-cv-09/blob/main/docs/Semantic%20Seg_CV_%ED%8C%80%20%EB%A6%AC%ED%8F%AC%ED%8A%B8(09%EC%A1%B0).pdf)
 
 ## File Tree
 
